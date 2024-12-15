@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Tasks</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f0f4f8;
+            color: #333;
+        }
+
+        .navbar {
+            background: #343a40;
+            padding: 1rem;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        .container {
+            background: #ffffff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        h1 {
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+
+        .btn-primary {
+            background-color: #6c63ff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #5753c9;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #6c63ff, #ab47bc);
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .btn-outline-info {
+            color: #6c63ff;
+            border-color: #6c63ff;
+        }
+
+        .btn-outline-info:hover {
+            background: #6c63ff;
+            color: #fff;
+        }
+
+        .btn-outline-danger {
+            color: #ef4444;
+            border-color: #ef4444;
+        }
+
+        .btn-outline-danger:hover {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .text-muted {
+            color: #adb5bd !important;
+        }
+
+        .center-row {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="~{commons :: navbar}" class="navbar">
+    <a href="#tasks">Tasks</a>
+    <a href="#features">Features</a>
+    <a href="#add">Add New</a>
+</div>
+
+<div class="container mt-5">
+    <h1 class="text-center">Your Tasks</h1>
+    <div class="text-center mb-4">
+        <a th:href="@{/task/add}" class="btn btn-primary" role="button">Add New Task +</a>
+    </div>
+    <div class="row center-row">
+        <div class="col-lg-4 col-md-6 col-sm-12" th:each="task : ${tasks}">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="my-0 font-weight-bold" th:text="${task.summary}">Task Title</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text" th:text="${task.description}">Description...</p>
+                    <hr>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <small class="text-muted" th:text="'Start: ' + ${task.startDate}">Start: Date</small>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted" th:text="'Due: ' + ${task.endDate}">Due: Date</small>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <small class="text-muted" th:text="'Category: ' + ${task.taskCategory.getName()}">Category: Type</small>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted" th:text="'Status: ' + ${task.getStatus().getName()}">Status: State</small>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-around align-items-center mt-3">
+                        <a th:href="@{|/task/edit/${task.id}|}" class="btn btn-sm btn-outline-info me-2" role="button">Edit</a>
+                        <form method="post" th:action="@{|/task/delete/${task.id}|}" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.min.js}"></script>
+</body>
+</html>

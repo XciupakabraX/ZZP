@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+  <link rel='stylesheet' th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <title>Add Status</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f0f4f8;
+      color: #333;
+    }
+
+    .navbar {
+      background: #343a40;
+      padding: 1rem;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 1rem;
+    }
+
+    .container {
+      background-color: #ffffff;
+      border-radius: 10px;
+      border: 1px solid #d3d3d3;
+      padding: 20px;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      width: 50%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h2 {
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #343a40;
+    }
+
+    .btn-primary {
+      background-color: #6c63ff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #5753c9;
+    }
+
+    .invalid-feedback {
+      display: block;
+      color: #ef4444;
+      margin-top: 5px;
+    }
+
+    .form-control.is-invalid {
+      border-color: #ef4444;
+    }
+
+    .d-flex {
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<div th:insert="~{commons :: navbar}" class="navbar">
+  <a href="#tasks">Tasks</a>
+  <a href="#features">Features</a>
+  <a href="#add">Add New</a>
+</div>
+
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="mb-5 text-center">Add New Status</h2>
+      <form th:object="${status}" method="post" th:action="@{/status/add}">
+
+        <!-- name -->
+        <div class="mb-2">
+          <label for="name" class="form-label">Name:</label>
+          <div class="input-group" th:classappend="${#fields.hasErrors('name') ? 'has-validation' : ''}">
+            <input type="text" aria-describedby="validationName" class="form-control" id="name"  th:field="*{name}" th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}" required>
+            <div id="validationName" class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+          </div>
+        </div>
+
+        <!-- displayName -->
+        <div class="mb-2">
+          <label for="displayName" class="form-label">Display name:</label>
+          <div class="input-group" th:classappend="${#fields.hasErrors('displayname') ? 'has-validation' : ''}">
+            <input type="text" aria-describedby="validationDisplayName" class="form-control" id="displayName"  th:field="*{displayname}" th:classappend="${#fields.hasErrors('displayname') ? 'is-invalid' : ''}" required>
+            <div id="validationDisplayName" class="invalid-feedback" th:if="${#fields.hasErrors('displayname')}" th:errors="*{displayname}"></div>
+          </div>
+        </div>
+
+        <!-- submit button -->
+        <div class="mb-4 text-center">
+          <button type="submit" class="btn btn-primary mt-3">Add new status</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

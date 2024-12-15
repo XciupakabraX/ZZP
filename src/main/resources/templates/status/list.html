@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+  <link rel='stylesheet' th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <title>Statuses</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f0f4f8;
+      color: #333;
+    }
+
+    .navbar {
+      background: #343a40;
+      padding: 1rem;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 1rem;
+    }
+
+    .container {
+      background: #ffffff;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 15px;
+    }
+
+    h2 {
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #343a40;
+    }
+
+    .btn-primary {
+      background-color: #6c63ff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #5753c9;
+    }
+
+    .table {
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+
+    .btn-outline-info {
+      color: #6c63ff;
+      border-color: #6c63ff;
+    }
+
+    .btn-outline-info:hover {
+      background: #6c63ff;
+      color: #fff;
+    }
+
+    .btn-outline-danger {
+      color: #ef4444;
+      border-color: #ef4444;
+    }
+
+    .btn-outline-danger:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    .text-muted {
+      color: #adb5bd !important;
+    }
+  </style>
+</head>
+<body>
+<div th:insert="~{commons :: navbar}" class="navbar">
+  <a href="#tasks">Tasks</a>
+  <a href="#features">Features</a>
+  <a href="#add">Add New</a>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Your Current List of Statuses</h2>
+  <div class="text-center mb-4">
+    <a th:href="@{/status/add}" class="btn btn-primary" role="button">Add New Status +</a>
+  </div>
+  <div class="table-responsive mx-auto" style="max-width: 900px;">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Status Name</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="status, statusStat : ${statuses}">
+        <th scope="row" th:text="${statusStat.count}">1</th>
+        <td th:text="${status.name}">Example Status</td>
+        <td>
+          <a th:href="@{|/status/${status.id}|}" class="btn btn-sm btn-outline-info" role="button">Edit</a>
+        </td>
+        <td>
+          <form method="post" th:action="@{|/status/delete/${status.id}|}">
+            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

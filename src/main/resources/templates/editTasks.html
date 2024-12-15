@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+  <link rel='stylesheet' th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <title>Edit Task</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f0f4f8;
+      color: #333;
+    }
+
+    .navbar {
+      background: #343a40;
+      padding: 1rem;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 1rem;
+    }
+
+    .container {
+      background-color: #ffffff;
+      border-radius: 10px;
+      border: 1px solid #d3d3d3;
+      padding: 20px;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      width: 50%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h2 {
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #343a40;
+    }
+
+    .btn-primary {
+      background-color: #6c63ff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #5753c9;
+    }
+
+    .invalid-feedback {
+      display: block;
+      color: #ef4444;
+      margin-top: 5px;
+    }
+
+    .form-control.is-invalid {
+      border-color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+
+<div th:insert="~{commons :: navbar}" class="navbar">
+  <a href="#tasks">Tasks</a>
+  <a href="#features">Features</a>
+  <a href="#add">Add New</a>
+</div>
+
+<div class="container my-4">
+  <h2 class="mb-5 text-center">Edit Task</h2>
+  <div class="justify-content-center">
+    <form method="post" th:object="${dto}" th:action="@{|/task/edit/${task.id}|}">
+      <!-- Title -->
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <div class="input-group" th:classappend="${#fields.hasErrors('summary') ? 'has-validation' : ''}">
+          <input placeholder="e.g. Java Project" name="summary" type="text" aria-describedby="validationName" class="form-control" id="title"
+                 th:value="${task.summary}" th:classappend="${#fields.hasErrors('summary') ? 'is-invalid' : ''}" required>
+          <div id="validationName" class="invalid-feedback" th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea placeholder="Short description..." name="description" aria-describedby="validationDescription" class="form-control" id="description"
+                  th:text="${task.description}" th:classappend="${#fields.hasErrors('description') ? 'is-invalid' : ''}" required></textarea>
+        <div id="validationDescription" class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+      </div>
+
+      <!-- Dates -->
+      <div class="row">
+        <div class="mb-3 col-md-6">
+          <label for="startDate" class="form-label">Start Date</label>
+          <input type="datetime-local" class="form-control" name="startDate" id="startDate" th:value="${startDate.toString()}" required>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label for="endDate" class="form-label">End Date</label>
+          <input type="datetime-local" class="form-control" name="endDate" id="endDate" th:value="${endDate.toString()}" required>
+        </div>
+      </div>
+
+      <!-- Category and Status -->
+      <div class="row">
+        <div class="mb-3 col-md-6">
+          <label for="category" class="form-label">Category</label>
+          <select name="categoryName" class="form-select" id="category" required>
+            <option th:each="category: ${categories}"
+                    th:value="${category.getName()}"
+                    th:selected="(${category.name.toLowerCase()} == ${task.taskCategory.name.toLowerCase()})"
+                    th:text="${category.getName()}"></option>
+          </select>
+        </div>
+        <div class="mb-3 col-md-6">
+          <label for="status" class="form-label">Status</label>
+          <select name="statusName" class="form-select" id="status" required>
+            <option th:each="status: ${statuses}"
+                    th:value="${status.getName()}"
+                    th:selected="(${status.name.toLowerCase()} == ${task.status.name.toLowerCase()})"
+                    th:text="${status.getName()}"></option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary mt-3">Edit Task</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
